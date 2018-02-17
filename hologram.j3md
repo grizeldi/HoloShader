@@ -1,0 +1,68 @@
+MaterialDef Hologram {
+    MaterialParameters {
+        Texture2D MainTexture
+        Color MainColor
+        Color RimColor
+        Float RimPower
+        Float BarSpeed
+        Float BarDistance
+        Float FlickerSpeed
+        Float GlowSpeed
+        Float GlowDistance
+        Float Alpha
+        Float GlitchSpeed
+        Float GlitchIntensity
+    }
+
+    Technique {
+        VertexShader GLSL400 : Shaders/hologram/holo.vert
+        FragmentShader GLSL400 : Shaders/hologram/holo.frag
+        WorldParameters {
+            WorldViewProjectionMatrix
+            WorldViewMatrix
+            WorldMatrix
+            ViewProjectionMatrix
+            NormalMatrix
+            Time
+        }
+        RenderState {
+            Blend Alpha
+            FaceCull Off
+        }
+        Defines {
+            HASBARS : BarSpeed
+            HASGLOW : GlowSpeed
+            HASALPHA : Alpha
+            SHOULDFLICKER : FlickerSpeed
+            SHOULDGLITCH : GlitchSpeed
+            HASRIM : RimColor
+            ISTEXTURED : MainTexture
+        }
+    }
+
+    Technique Glow {
+        VertexShader GLSL400 : Shaders/hologram/holo.vert
+        FragmentShader GLSL400 : Shaders/hologram/holo.frag
+        WorldParameters {
+            WorldViewProjectionMatrix
+            WorldViewMatrix
+            WorldMatrix
+            ViewProjectionMatrix
+            NormalMatrix
+            Time
+        }
+        RenderState {
+            Blend Alpha
+            FaceCull Off
+        }
+        Defines {
+            HASBARS : BarSpeed
+            HASGLOW : GlowSpeed
+            HASALPHA : Alpha
+            SHOULDFLICKER : FlickerSpeed
+            SHOULDGLITCH : GlitchSpeed
+            HASRIM : RimColor
+            ISTEXTURED : MainTexture
+        }
+    }
+}
