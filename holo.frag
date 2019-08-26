@@ -1,3 +1,5 @@
+#import "Common/ShaderLib/GLSLCompat.glsllib"
+
 uniform vec4 m_MainColor;
 uniform float g_Time;
 
