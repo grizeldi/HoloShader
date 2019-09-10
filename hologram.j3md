@@ -12,11 +12,15 @@ MaterialDef Hologram {
         Float Alpha
         Float GlitchSpeed
         Float GlitchIntensity
+
+        // For hardware skinning
+        Int NumberOfBones
+        Matrix4Array BoneMatrices
     }
 
     Technique {
-        VertexShader GLSL400 : Shaders/hologram/holo.vert
-        FragmentShader GLSL400 : Shaders/hologram/holo.frag
+        VertexShader GLSL330 : Shaders/hologram/holo.vert
+        FragmentShader GLSL330 : Shaders/hologram/holo.frag
         WorldParameters {
             WorldViewProjectionMatrix
             WorldViewMatrix
@@ -37,12 +41,14 @@ MaterialDef Hologram {
             SHOULDGLITCH : GlitchSpeed
             HASRIM : RimColor
             ISTEXTURED : MainTexture
+
+            NUM_BONES : NumberOfBones
         }
     }
 
     Technique Glow {
-        VertexShader GLSL400 : Shaders/hologram/holo.vert
-        FragmentShader GLSL400 : Shaders/hologram/holo.frag
+        VertexShader GLSL330 : Shaders/hologram/holo.vert
+        FragmentShader GLSL330 : Shaders/hologram/holo.frag
         WorldParameters {
             WorldViewProjectionMatrix
             WorldViewMatrix
@@ -63,6 +69,8 @@ MaterialDef Hologram {
             SHOULDGLITCH : GlitchSpeed
             HASRIM : RimColor
             ISTEXTURED : MainTexture
+
+            NUM_BONES : NumberOfBones
         }
     }
 }

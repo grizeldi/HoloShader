@@ -1,4 +1,4 @@
-#import "Common/ShaderLib/GLSLCompat.glsllib"
+#import "Common/ShaderLib/Skinning.glsllib"
 
 uniform mat4 g_WorldViewProjectionMatrix;
 uniform mat4 g_WorldMatrix;
@@ -12,9 +12,9 @@ uniform float g_Time;
     uniform float m_GlitchIntensity;
 #endif
 
-attribute vec3 inPosition;
-attribute vec3 inNormal;
-attribute vec2 inTexCoord;
+in vec3 inPosition;
+in vec3 inNormal;
+in vec2 inTexCoord;
 
 out vec3 vertexWorldPos;
 out vec3 vertexModelPos;
@@ -30,6 +30,7 @@ void main(){
     viewDir = normalize(-(g_WorldViewMatrix * vec4(inPosition, 1.0)).xyz);
 
     vec3 outPosition = (g_WorldMatrix * vec4(inPosition, 1.0)).xyz;
+    
     //Glitch
     #ifdef SHOULDGLITCH
         outPosition.x += m_GlitchIntensity * step(0.5, sin(g_Time * 2.0 + inPosition.y * 1.0)) * step(0.99, sin(g_Time * m_GlitchSpeed * 0.5));
