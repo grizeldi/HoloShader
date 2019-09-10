@@ -1,0 +1,12 @@
+apply plugin: 'maven'
+apply plugin: 'java'
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["."]
+            include "**"
+            exclude ".gitignore", ".github", "build", ".gradle", "README.md", "local.properties", "*.gradle", "LICENSE"
+        }
+   }
+}
