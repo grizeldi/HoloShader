@@ -1,3 +1,4 @@
+#import "Common/ShaderLib/GLSLCompat.glsllib"
 #import "Common/ShaderLib/Skinning.glsllib"
 
 uniform mat4 g_WorldViewProjectionMatrix;
@@ -23,18 +24,24 @@ out vec3 viewDir;
 out vec2 texCoord;
 
 void main(){
-    vertexWorldPos = (g_WorldMatrix * vec4(inPosition, 1.0)).xyz;
-    vertexModelPos = inPosition;
+    vec4 modelSpacePos = vec4(inPosition, 1.0);
+    vec3 modelSpaceNorm = inNormal;
+    #ifdef NUM_BONES
+        Skinning_Compute(modelSpacePos, modelSpaceNorm);
+    #endif
+    
+    vertexWorldPos = (g_WorldMatrix * modelSpacePos).xyz;
+    vertexModelPos = modelSpacePos.xyz;
     texCoord = inTexCoord;
-    worldNormal = normalize(g_NormalMatrix * inNormal);
-    viewDir = normalize(-(g_WorldViewMatrix * vec4(inPosition, 1.0)).xyz);
+    worldNormal = normalize(g_NormalMatrix * modelSpaceNorm);
+    viewDir = normalize(-(g_WorldViewMatrix * modelSpacePos).xyz);
 
-    vec3 outPosition = (g_WorldMatrix * vec4(inPosition, 1.0)).xyz;
+    vec3 outPosition = (g_WorldMatrix * modelSpacePos).xyz;
     
     //Glitch
     #ifdef SHOULDGLITCH
         outPosition.x += m_GlitchIntensity * step(0.5, sin(g_Time * 2.0 + inPosition.y * 1.0)) * step(0.99, sin(g_Time * m_GlitchSpeed * 0.5));
     #endif
     
-    gl_Position = g_ViewProjectionMatrix * vec4(outPosition, 1.0);
+    gl_Position = g_WorldViewProjectionMatrix * modelSpacePos;
 }
